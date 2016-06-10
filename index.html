@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html ng-app="myApp"> <!-- Ativa/Starta o ANGULAR -->
+<head>
+	<title>Cadastro de Contatos</title>
+	
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.css">
+	<script type="text/javascript" src="vendor/angularjs/angular.js"></script>
+	<script type="text/javascript" src="js/myApp.js"></script>
+	<script type="text/javascript" src="js/controller/CrudController.js"></script>
+
+</head>
+<body ng-controller="CrudController" >
+	
+	<div class="container">
+
+
+		<h1>Cadastro de Contatos - ({{ operacao =='I' ? 'Incluindo' : 'Editando' }})</h1>
+		
+		<div class="row">
+
+			<div class="col-xs-4">
+
+				<form ng-submit="enviaDados(pessoa)"> 
+
+					<div class="form-group">
+						<label>ID</label>
+						<input ng-model="pessoa.id" tabindex=1 class="form-control" type="number" readonly="readonly"></input>
+					</div>		
+					<div class="form-group">
+						<label>Nome</label>
+						<input ng-model="pessoa.nome" tabindex=2 class="form-control" type="text" placeholder="Insira o nome do contato" minlength="3" required></input>
+					</div>		
+
+					<div class="form-group">
+						<label>Email</label>
+						<input ng-model="pessoa.email" tabindex=3 class="form-control" type="email"  placeholder="Insira um e-mail válido" required></input>
+					</div>
+					<div class="form-group">
+						<label>Telefone</label>
+						<input ng-model="pessoa.telefone" tabindex=4 class="form-control" type="text" minlength="8" placeholder="(XX) 9999-9999" required></input>
+					</div>
+
+					<button tabindex=6 class="btn btn-success" type="submit">{{ operacao == 'E' ? 'Salvar' : 'Adicionar' }}</button>
+					<button ng-if="operacao=='E'" ng-click="cancelar()" class="btn btn-danger" type="submit">Cancelar</button>
+					
+
+				</form>
+
+			</div>
+
+			<div class="col-xs-8">
+				<br>
+				<input type='text' ng-model="buscar" placeholder="Buscar">
+				<br>
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Nome</th>
+							<th>Telefone</th>
+							<th>E-Mail</th>	
+							<th>Opções</th>	
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in dados | filter:buscar">
+							<td>{{item.id}}</td>
+							<td>{{item.nome}}</td>
+							<td>{{item.telefone}}</td>
+							<td>{{item.email}}</td>
+							<td>
+							<button ng-click="excluirDados($index)" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button>
+							<buttin ng-click="editarDados($index)" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></buttin>
+							</td>	
+						</tr>
+					</tbody>
+				</table>
+			
+			</div>
+			
+		</div>
+
+		<br>
+		<div ng-if="operacao=='E'" border="2px"><h3>Aviso: Os dados são salvos automaticamente!</h1></div>
+
+
+	</div>
+
+</body>
+</html>
